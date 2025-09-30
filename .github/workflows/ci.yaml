@@ -69,7 +69,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           java-version: '17'
-          distribution: 'temurin'   # лучше Hotspot, чем liberica
+          distribution: 'liberica'
           cache: 'gradle'
 
       - name: Make gradlew executable
