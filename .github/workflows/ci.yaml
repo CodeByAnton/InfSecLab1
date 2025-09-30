@@ -1,55 +1,3 @@
-#name: Java CI with SpotBugs
-#
-#on:
-#  push: {}
-#  pull_request: {}
-#
-#jobs:
-#  code-check:
-#    name: analysis
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v5
-#
-#      - name: Set up JDK
-#        uses: actions/setup-java@v5
-#        with:
-#          java-version: '21'
-#          distribution: 'liberica'
-#          cache: 'gradle'
-#
-#      - name: Make gradlew executable
-#        run: chmod +x gradlew
-#
-#      - name: Run SpotBugs
-#        run: ./gradlew clean build
-#
-#      - name: Upload SpotBugs report
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: spotbugs-report
-#          path: build/reports/spotbugs/
-#          if-no-files-found: warn
-#      - name: Depcheck
-#        uses: dependency-check/Dependency-Check_Action@main
-#        env:
-#          JAVA_HOME: /opt/jdk
-#        id: Depcheck
-#        with:
-#          project: 'test'
-#          path: '.'
-#          format: 'HTML'
-#          out: 'reports'
-#          args: >
-#            --enableRetired
-#      - name: Upload Test results
-#        uses: actions/upload-artifact@master
-#        with:
-#          name: Depcheck report
-#          path: ${{github.workspace}}/reports
-
 name: Java CI with SpotBugs
 
 on:
@@ -68,7 +16,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
-          java-version: '21'
+          java-version: '17'
           distribution: 'liberica'
           cache: 'gradle'
 
@@ -84,13 +32,6 @@ jobs:
           name: spotbugs-report
           path: build/reports/spotbugs/
           if-no-files-found: warn
-
-      - name: Cache Dependency-Check data
-        uses: actions/cache@v4
-        with:
-          path: ~/.dependency-check
-          key: ${{ runner.os }}-dependency-check
-
       - name: Depcheck
         uses: dependency-check/Dependency-Check_Action@main
         env:
@@ -103,9 +44,8 @@ jobs:
           out: 'reports'
           args: >
             --enableRetired
-
       - name: Upload Test results
         uses: actions/upload-artifact@master
         with:
           name: Depcheck report
-          path: ${{ github.workspace }}/reports
+          path: ${{github.workspace}}/reports
